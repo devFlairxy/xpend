@@ -1,0 +1,1090 @@
+<!-- Landing page layout with Tailwind CSS -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xpend – Your Personal Crypto Wallet Assistant</title>
+    <meta name="description" content="Spend crypto like cash. Get real-time Naira for your crypto, pay bills, and transfer instantly on WhatsApp. Secure, simple, and always available.">
+    <meta property="og:title" content="Xpend – Your Personal Crypto Wallet Assistant">
+    <meta property="og:description" content="Spend crypto like cash. Get real-time Naira for your crypto, pay bills, and transfer instantly on WhatsApp.">
+    <meta property="og:image" content="https://yourdomain.com/og-image.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="./icon.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      /* Dark theme variables */
+      :root {
+        --accent-blue: #1565c0;
+        --accent-blue-2: #1976d2;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-card: #ffffff;
+        --text-primary: #111827;
+        --text-secondary: #6b7280;
+        --text-muted: #9ca3af;
+        --border-color: #e5e7eb;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --gradient-blue: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+        --gradient-green: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        --gradient-purple: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+        --gradient-orange: linear-gradient(135deg, #f59e42 0%, #fbbf24 100%);
+      }
+      
+      [data-theme="dark"] {
+        --accent-blue: #1565c0;
+        --accent-blue-2: #1976d2;
+        --bg-primary: #000000;
+        --bg-secondary: #111111;
+        --bg-card: #181818;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --border-color: #222222;
+        --shadow-color: rgba(0, 0, 0, 0.7);
+        --gradient-blue: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+        --gradient-green: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        --gradient-purple: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+        --gradient-orange: linear-gradient(135deg, #f59e42 0%, #fbbf24 100%);
+      }
+      
+      /* Apply theme colors with higher specificity */
+      body {
+        background-color: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
+        transition: all 0.3s ease;
+        font-family: 'IBM Plex Sans', Arial, sans-serif;
+      }
+      
+      body.bg-white {
+        background-color: var(--bg-primary) !important;
+      }
+      
+      header {
+        background-color: var(--bg-card) !important;
+        backdrop-filter: blur(12px);
+      }
+      
+      header.bg-white\/80 {
+        background-color: var(--bg-card) !important;
+      }
+      
+      .bg-card {
+        background-color: var(--bg-card) !important;
+      }
+      
+      .text-primary {
+        color: var(--text-primary) !important;
+      }
+      
+      .text-secondary {
+        color: var(--text-secondary) !important;
+      }
+      
+      .text-muted {
+        color: var(--text-muted) !important;
+      }
+      
+      .border-theme {
+        border-color: var(--border-color) !important;
+      }
+      
+      /* Theme toggle button */
+      .theme-toggle {
+        position: relative;
+        width: 48px;
+        height: 24px;
+        background: #6366f1;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .theme-toggle::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+      
+      [data-theme="dark"] .theme-toggle::after {
+        transform: translateX(24px);
+      }
+      
+      /* Animation classes */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+      }
+      
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .slide-in-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.8s ease-out;
+      }
+      
+      .slide-in-left.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      
+      .slide-in-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.8s ease-out;
+      }
+      
+      .slide-in-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      
+      .scale-in {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.6s ease-out;
+      }
+      
+      .scale-in.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+      
+      /* Hero entrance animation */
+      .hero-title {
+        opacity: 0;
+        transform: translateY(50px);
+        animation: heroEntrance 1.2s ease-out 0.3s forwards;
+      }
+      
+      .hero-subtitle {
+        opacity: 0;
+        transform: translateY(50px);
+        animation: heroEntrance 1.2s ease-out 0.6s forwards;
+      }
+      
+      @keyframes heroEntrance {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      /* Hover effects */
+      .feature-card {
+        transition: all 0.3s ease;
+        background: var(--gradient-blue);
+      }
+      
+      .feature-card:nth-child(even) {
+        background: var(--gradient-green);
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px var(--shadow-color);
+      }
+      
+      .security-card {
+        transition: all 0.3s ease;
+      }
+      
+      .security-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 15px 30px var(--shadow-color);
+      }
+      
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent-blue);
+        transition: width 0.3s ease;
+      }
+      
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--accent-blue) !important;
+      }
+      
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 100%;
+      }
+      
+      /* Floating animation for crypto symbols */
+      .floating {
+        animation: floating 3s ease-in-out infinite;
+      }
+      
+      @keyframes floating {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      
+      /* SVG animations */
+      .svg-element {
+        transition: all 0.3s ease;
+      }
+      
+      .feature-card:hover .svg-element {
+        transform: scale(1.05);
+      }
+      
+      /* Staggered animations */
+      .stagger-1 { transition-delay: 0.1s; }
+      .stagger-2 { transition-delay: 0.2s; }
+      .stagger-3 { transition-delay: 0.3s; }
+      
+      /* Contact section bounce */
+      .contact-bounce {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      
+      .contact-bounce.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* Email link hover effect */
+      .email-link {
+        transition: all 0.3s ease;
+        position: relative;
+      }
+      
+      .email-link:hover {
+        color: var(--accent-blue-2) !important;
+      }
+      
+      .accent {
+        color: var(--accent-blue) !important;
+      }
+      .accent-bg {
+        background: var(--accent-blue) !important;
+        color: #fff !important;
+      }
+      .accent-border {
+        border-color: var(--accent-blue) !important;
+      }
+      .accent-gradient {
+        background: var(--gradient-blue) !important;
+        color: #fff !important;
+      }
+      button, .btn-primary {
+        color: #fff !important;
+        border-radius: 0.5rem;
+        transition: background 0.2s;
+      }
+      button:hover, .btn-primary:hover {
+        background: var(--accent-blue-2) !important;
+      }
+
+      /* Subtle grid background */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.12;
+        background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="40" height="40" fill="none"/><path d="M40 0V40M0 40H40" stroke="%231565c0" stroke-width="0.5"/><path d="M20 0V40M0 20H40" stroke="%231565c0" stroke-width="0.5"/></svg>');
+        background-size: 40px 40px;
+        background-repeat: repeat;
+      }
+      
+      /* Ensure main content is above grid */
+      body > * { position: relative; z-index: 1; }
+
+      /* Floating currency bubble fix */
+      .floating-bubble {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff;
+        background: var(--accent-blue);
+        box-shadow: 0 2px 8px rgba(21,101,192,0.15);
+        animation: floating 3s ease-in-out infinite;
+      }
+      .floating-bubble.usdt {
+        background: #26a17b;
+      }
+      .floating-bubble.naira {
+        background: var(--accent-blue);
+      }
+      @keyframes floating {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-16px); }
+      }
+
+      /* Logo swap for dark mode */
+      .logo-img {
+        transition: filter 0.3s;
+      }
+      [data-theme="dark"] .logo-img {
+        filter: brightness(0) invert(1);
+      }
+
+      body, h1, h2, h3, .hero-title, .accent, .faq-toggle {
+        font-family: 'Space Grotesk', 'IBM Plex Sans', Arial, sans-serif;
+        letter-spacing: -0.5px;
+      }
+
+      /* Floating WhatsApp CTA */
+      .floating-whatsapp-cta {
+        position: fixed;
+        right: 24px;
+        bottom: 120px;
+        z-index: 9999;
+        background: none !important;
+        color: var(--text-primary) !important;
+        border-radius: 9999px;
+        box-shadow: none !important;
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.15rem;
+        font-weight: 700;
+        gap: 0.75rem;
+        transition: color 0.2s;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        text-decoration: none;
+        animation: bounce-float 3s ease-in-out infinite;
+      }
+      .floating-whatsapp-cta:hover {
+        color: var(--accent-blue) !important;
+      }
+      .floating-whatsapp-cta svg {
+        flex-shrink: 0;
+        margin-right: 0.5rem;
+      }
+      @keyframes bounce-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+      }
+      @media (max-width: 640px) {
+        .floating-whatsapp-cta {
+          right: 12px;
+          bottom: 100px;
+          padding: 0.75rem 1.25rem;
+          font-size: 1rem;
+          gap: 0.75rem;
+        }
+        .floating-whatsapp-cta svg {
+          width: 48px;
+          height: 48px;
+        }
+      }
+
+      /* Mobile menu animations */
+      .mobile-menu.active {
+        transform: translateX(0);
+      }
+      
+      .mobile-menu-overlay.active {
+        display: block;
+      }
+      
+      /* Hamburger to X animation */
+      .mobile-menu-toggle.active .hamburger-line-1 {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      
+      .mobile-menu-toggle.active .hamburger-line-2 {
+        opacity: 0;
+      }
+      
+      .mobile-menu-toggle.active .hamburger-line-3 {
+        transform: rotate(-45deg) translate(7px, -6px);
+      }
+      
+      /* Mobile nav link animations */
+      .mobile-nav-link {
+        position: relative;
+        padding: 0.75rem 0;
+      }
+      
+      .mobile-nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent-blue);
+        transition: width 0.3s ease;
+      }
+      
+      .mobile-nav-link:hover::after {
+        width: 100%;
+      }
+      
+      /* Ensure mobile menu toggle has no background */
+      #mobileMenuToggle {
+        background: var(--card-bg) !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        border-radius: 0.5rem !important;
+      }
+      
+      #mobileMenuToggle:hover {
+        background: var(--card-bg) !important;
+      }
+      
+      #mobileMenuToggle:focus {
+        background: var(--card-bg) !important;
+        outline: none !important;
+      }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Xpend?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Xpend is your personal crypto wallet assistant on WhatsApp. Instantly get the real-time Naira equivalent for your crypto, send money, pay bills, and manage your funds—all through simple chat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Xpend work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Just chat with Xpend on WhatsApp. Tell it what you want to do—send money, check your balance, or pay a bill—and it handles the rest, converting your crypto to Naira at live rates."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Xpend secure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Every transaction is protected by WhatsApp's end-to-end encryption, your own PIN, and optional biometric login. Your privacy and funds are always safe."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I start using Xpend?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tap 'Try Xpend' to open a WhatsApp chat. Follow the quick setup to register, then start sending, spending, and managing your crypto instantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if I lose my phone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Freeze your Xpend account instantly from any WhatsApp device. We'll pause all activity and guide you through secure recovery."
+          }
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body class="text-gray-900" data-theme="dark">
+    <header
+      class="fixed top-0 w-full z-50 bg-card/80 backdrop-blur-md shadow-sm px-6 lg:px-52 py-4 flex justify-between items-center border-theme border-b"
+    >
+      <div class="text-2xl font-bold">
+        <img src="logo.png" alt="Xpend" class="w-2/3 logo-img" />
+      </div>
+      <nav class="hidden md:flex space-x-6 text-sm items-center">
+        <a href="#features" class="nav-link hover:text-indigo-600 text-secondary">Features</a>
+        <a href="#security" class="nav-link hover:text-indigo-600 text-secondary">Security</a>
+        <a href="#contact" class="nav-link hover:text-indigo-600 text-secondary">Contact</a>
+        <a href="./terms.html" class="nav-link hover:text-indigo-600 text-secondary">Terms</a>
+        <a href="./privacy-policy.html" class="nav-link hover:text-indigo-600 text-secondary">Privacy</a>
+        <div class="theme-toggle ml-4" id="themeToggle" title="Toggle dark mode">
+          <svg class="w-4 h-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+          </svg>
+        </div>
+      </nav>
+      
+      <!-- Mobile menu toggle -->
+      <button class="md:hidden flex flex-col justify-center items-center w-8 h-8" id="mobileMenuToggle" aria-label="Toggle mobile menu">
+        <svg class="w-6 h-6 text-primary transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path class="hamburger-line-1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16"></path>
+          <path class="hamburger-line-2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16"></path>
+          <path class="hamburger-line-3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18h16"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Mobile menu overlay -->
+    <div class="mobile-menu-overlay fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden" id="mobileMenuOverlay"></div>
+    
+    <!-- Mobile menu -->
+    <nav class="mobile-menu fixed top-0 right-0 h-full w-64 bg-card shadow-xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden" id="mobileMenu">
+      <div class="flex flex-col h-full p-6">
+        <div class="flex justify-between items-center mb-8">
+          <div class="text-xl font-bold">
+            <img src="logo.png" alt="Xpend" class="w-1/2 logo-img" />
+          </div>
+          <button class="mobile-menu-close w-8 h-8 flex flex-col justify-center items-center" id="mobileMenuClose" aria-label="Close mobile menu">
+            <span class="close-line w-6 h-0.5 bg-current transform rotate-45 transition-all duration-300"></span>
+            <span class="close-line w-6 h-0.5 bg-current transform -rotate-45 transition-all duration-300"></span>
+          </button>
+        </div>
+        
+        <div class="flex flex-col space-y-6 text-lg">
+          <a href="#features" class="mobile-nav-link text-primary hover:text-accent-blue transition-colors duration-200">Features</a>
+          <a href="#security" class="mobile-nav-link text-primary hover:text-accent-blue transition-colors duration-200">Security</a>
+          <a href="#contact" class="mobile-nav-link text-primary hover:text-accent-blue transition-colors duration-200">Contact</a>
+          <a href="./terms.html" class="mobile-nav-link text-primary hover:text-accent-blue transition-colors duration-200">Terms</a>
+          <a href="./privacy-policy.html" class="mobile-nav-link text-primary hover:text-accent-blue transition-colors duration-200">Privacy</a>
+        </div>
+        
+        <div class="mt-auto">
+          <div class="theme-toggle-mobile flex items-center justify-center w-full py-3 px-4 bg-card/50 rounded-lg border border-theme hover:bg-card/70 transition-colors duration-200 cursor-pointer" id="themeToggleMobile" title="Toggle dark mode">
+            <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+            </svg>
+            <span class="ml-3 text-primary font-medium">Toggle Theme</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="pt-32 px-6 sm:px-8 md:px-12 lg:px-52 mb-32">
+      <section class="w-full text-center py-20 mb-10">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-4 text-primary">Your Personal Crypto Wallet Assistant</h1>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 accent">Spend crypto like cash.</h2>
+        <p class="text-xl md:text-2xl text-secondary mb-10 max-w-2xl mx-auto">Get the real-time Naira equivalent for your crypto. Send exact Naira, pay bills, and transfer value instantly—no banks, no hassle, just WhatsApp.</p>
+        <a href="https://wa.me/2340000000000" target="_blank" class="floating-whatsapp-cta">
+          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 32 32" fill="none"><g><circle cx="16" cy="16" r="16" fill="#25D366"/><path d="M23.472 8.528A8.994 8.994 0 0 0 16 6a8.994 8.994 0 0 0-7.472 13.472l-1.016 3.72a1 1 0 0 0 1.224 1.224l3.72-1.016A8.994 8.994 0 0 0 16 26a8.994 8.994 0 0 0 7.472-13.472zm-7.472 13.472a7.978 7.978 0 0 1-4.09-1.13l-.29-.17-2.21.6.6-2.21-.17-.29A7.978 7.978 0 0 1 8 16c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8zm4.29-5.71c-.23-.12-1.36-.67-1.57-.75-.21-.08-.36-.12-.51.12-.15.23-.58.75-.71.9-.13.15-.26.17-.49.06-.23-.12-.97-.36-1.85-1.15-.68-.6-1.14-1.34-1.27-1.57-.13-.23-.01-.35.1-.46.1-.1.23-.26.34-.39.11-.13.15-.23.23-.38.08-.15.04-.29-.02-.41-.06-.12-.51-1.23-.7-1.68-.18-.44-.37-.38-.51-.39-.13-.01-.29-.01-.45-.01-.16 0-.41.06-.62.29-.21.23-.81.79-.81 1.93 0 1.14.83 2.25.95 2.41.12.16 1.63 2.49 4.01 3.39.56.19.99.3 1.33.38.56.12 1.07.1 1.47.06.45-.05 1.36-.56 1.55-1.1.19-.54.19-1.01.13-1.1-.06-.09-.21-.15-.44-.27z" fill="#fff"/></g></svg>
+          Try Xpend
+        </a>
+      </section>
+
+      <section id="features" class="space-y-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24 items-center">
+          <div class="feature-card h-72 rounded-2xl flex items-center justify-center p-8 relative overflow-visible" style="background-image: url('data:image/svg+xml,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20viewBox%3D%220%200%20400%20300%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22vaultbg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%22400%22%20y2%3D%22300%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%231565c0%22%20/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%231976d2%22%20/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%22400%22%20height%3D%22300%22%20rx%3D%2236%22%20fill%3D%22url(%23vaultbg)%22%20/%3E%3Cg%20opacity%3D%220.12%22%3E%3Cpath%20d%3D%22M0%2060h400M0%20120h400M0%20180h400M0%20240h400M80%200v300M160%200v300M240%200v300M320%200v300%22%20stroke%3D%22white%22%20stroke-width%3D%221%22%20/%3E%3C/g%3E%3Cellipse%20cx%3D%22200%22%20cy%3D%22150%22%20rx%3D%2260%22%20ry%3D%2260%22%20fill%3D%22%23181F2B%22%20stroke%3D%22white%22%20stroke-width%3D%223%22%20/%3E%3Cellipse%20cx%3D%22200%22%20cy%3D%22150%22%20rx%3D%2238%22%20ry%3D%2238%22%20fill%3D%22%23111927%22%20stroke%3D%22%231565c0%22%20stroke-width%3D%226%22%20/%3E%3Ccircle%20cx%3D%22200%22%20cy%3D%22150%22%20r%3D%2210%22%20fill%3D%22white%22%20stroke%3D%22%231565c0%22%20stroke-width%3D%222%22%20/%3E%3Crect%20x%3D%22198%22%20y%3D%22110%22%20width%3D%224%22%20height%3D%2220%22%20rx%3D%222%22%20fill%3D%22%231565c0%22%20/%3E%3Crect%20x%3D%22198%22%20y%3D%22170%22%20width%3D%224%22%20height%3D%2220%22%20rx%3D%222%22%20fill%3D%22%231565c0%22%20/%3E%3Crect%20x%3D%22170%22%20y%3D%22148%22%20width%3D%2220%22%20height%3D%224%22%20rx%3D%222%22%20fill%3D%22%231565c0%22%20/%3E%3Crect%20x%3D%22210%22%20y%3D%22148%22%20width%3D%2220%22%20height%3D%224%22%20rx%3D%222%22%20fill%3D%22%231565c0%22%20/%3E%3Ccircle%20cx%3D%22110%22%20cy%3D%22100%22%20r%3D%2222%22%20fill%3D%22%231565c0%22%20/%3E%3Ctext%20x%3D%22110%22%20y%3D%22108%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-size%3D%2222%22%20font-family%3D%22Inter,Arial,sans-serif%22%3E%E2%82%A6%3C/text%3E%3Ccircle%20cx%3D%22320%22%20cy%3D%22120%22%20r%3D%2222%22%20fill%3D%22%2326a17b%22%20/%3E%3Ctext%20x%3D%22320%22%20y%3D%22128%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-size%3D%2222%22%20font-family%3D%22Inter,Arial,sans-serif%22%3E%E2%82%AE%3C/text%3E%3C/svg>'); background-size: cover; background-position: center;">
+          </div>
+          <div class="slide-in-right">
+            <h2 class="text-2xl font-semibold mb-2 text-primary">Bank-like spending.</h2>
+            <p class="text-secondary text-xl">
+            Deposit USDT, keep your balance. <br> Send exact Naira amounts anytime,
+            anywhere.
+          </p>
+        </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24 items-center">
+          <div class="slide-in-left">
+            <h2 class="text-2xl font-semibold mb-2 text-primary">Live rate conversion.</h2>
+            <p class="text-secondary text-xl">
+              You say "send ₦20k", we handle the math. <br> The crypto deduction
+            matches your transfer.
+          </p>
+          </div>
+          <div class="feature-card h-72 rounded-2xl flex items-center justify-center p-8">
+            <svg class="w-full h-full svg-element" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Calculator/Conversion display -->
+              <rect x="80" y="100" width="140" height="100" rx="12" fill="#10B981" stroke="#059669" stroke-width="2"/>
+              <rect x="90" y="110" width="120" height="30" rx="4" fill="#D1FAE5"/>
+              <!-- Display text -->
+              <text x="150" y="130" text-anchor="middle" fill="#065F46" font-size="14" font-weight="bold">₦20,000 = 0.0234 USDT</text>
+              <!-- Buttons -->
+              <rect x="90" y="150" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <rect x="120" y="150" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <rect x="150" y="150" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <rect x="180" y="150" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <rect x="210" y="150" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <rect x="90" y="180" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <rect x="120" y="180" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <rect x="150" y="180" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <rect x="180" y="180" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <rect x="210" y="180" width="25" height="25" rx="4" fill="#A7F3D0"/>
+              <!-- Currency symbols -->
+              <circle class="floating" cx="60" cy="80" r="20" fill="#F59E0B"/>
+              <text x="60" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="bold">₦</text>
+              <circle class="floating" cx="240" cy="80" r="20" fill="#3B82F6"/>
+              <text x="240" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="bold">₿</text>
+              <!-- Conversion arrow -->
+              <path d="M85 80 L215 80" stroke="#6B7280" stroke-width="3" marker-end="url(#arrowhead2)"/>
+              <defs>
+                <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#6B7280"/>
+                </marker>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24 items-center">
+          <div class="feature-card h-72 rounded-2xl flex items-center justify-center p-8">
+            <svg class="w-full h-full svg-element" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- WhatsApp chat bubble -->
+              <rect x="60" y="80" width="180" height="140" rx="20" fill="#25D366" stroke="#128C7E" stroke-width="2"/>
+              <!-- Chat messages -->
+              <rect x="80" y="100" width="120" height="30" rx="15" fill="white"/>
+              <text x="140" y="120" text-anchor="middle" fill="#128C7E" font-size="12">Send ₦5k to John</text>
+              
+              <rect x="100" y="140" width="100" height="30" rx="15" fill="white"/>
+              <text x="150" y="160" text-anchor="middle" fill="#128C7E" font-size="12">Processing...</text>
+              
+              <rect x="120" y="180" width="80" height="30" rx="15" fill="#DCF8C6"/>
+              <text x="160" y="200" text-anchor="middle" fill="#128C7E" font-size="12">Sent! ✅</text>
+              
+              <!-- Phone icon -->
+              <rect x="220" y="60" width="40" height="60" rx="8" fill="#374151" stroke="#1F2937" stroke-width="2"/>
+              <rect x="225" y="65" width="30" height="40" rx="2" fill="#6B7280"/>
+              <circle cx="240" cy="115" r="3" fill="#6B7280"/>
+              
+              <!-- Crypto symbols floating -->
+              <circle class="floating" cx="50" cy="60" r="12" fill="#F59E0B"/>
+              <text x="50" y="65" text-anchor="middle" fill="white" font-size="10" font-weight="bold">₿</text>
+              
+              <circle class="floating" cx="250" cy="40" r="12" fill="#10B981"/>
+              <text x="250" y="45" text-anchor="middle" fill="white" font-size="10" font-weight="bold">₦</text>
+            </svg>
+          </div>
+          <div class="slide-in-right">
+            <h2 class="text-2xl font-semibold mb-2 text-primary">Seamless on WhatsApp.</h2>
+            <p class="text-secondary text-xl">
+            No new apps. <br> Use your crypto like cash in chat with direct delivery
+            to any Naira account.
+          </p>
+          </div>
+        </div>
+
+        <div id="security" class="text-center mb-20">
+          <div class="max-w-4xl mx-auto">
+            <h2 class="fade-in text-4xl md:text-5xl font-bold mb-4 text-primary">
+              Built-in Security
+            </h2>
+            <p class="fade-in text-secondary text-lg md:text-xl mb-16 max-w-2xl mx-auto">
+              Your crypto is protected by WhatsApp's enterprise-grade security, enhanced with additional layers of protection
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              <div class="security-card scale-in stagger-1 group">
+                <div class="relative mb-6">
+                  <div class="h-48 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-6 group-hover:shadow-lg transition-all duration-300">
+                    <svg class="w-full h-full svg-element" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Lock -->
+                      <rect x="70" y="100" width="60" height="50" rx="8" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+                      <path d="M75 100 L75 80 Q75 70 85 70 L115 70 Q125 70 125 80 L125 100" stroke="#1E40AF" stroke-width="2" fill="none"/>
+                      <!-- Keypad -->
+                      <rect x="60" y="120" width="80" height="60" rx="8" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1"/>
+                      <rect x="70" y="130" width="15" height="15" rx="2" fill="#F3F4F6"/>
+                      <rect x="90" y="130" width="15" height="15" rx="2" fill="#F3F4F6"/>
+                      <rect x="110" y="130" width="15" height="15" rx="2" fill="#F3F4F6"/>
+                      <rect x="70" y="150" width="15" height="15" rx="2" fill="#F3F4F6"/>
+                      <rect x="90" y="150" width="15" height="15" rx="2" fill="#F3F4F6"/>
+                      <rect x="110" y="150" width="15" height="15" rx="2" fill="#F3F4F6"/>
+                      <rect x="70" y="170" width="15" height="15" rx="2" fill="#F3F4F6"/>
+                      <rect x="90" y="170" width="15" height="15" rx="2" fill="#F3F4F6"/>
+                      <rect x="110" y="170" width="15" height="15" rx="2" fill="#F3F4F6"/>
+                      <!-- Numbers -->
+                      <text x="77" y="140" fill="#374151" font-size="8">1</text>
+                      <text x="97" y="140" fill="#374151" font-size="8">2</text>
+                      <text x="117" y="140" fill="#374151" font-size="8">3</text>
+                      <text x="77" y="160" fill="#374151" font-size="8">4</text>
+                      <text x="97" y="160" fill="#374151" font-size="8">5</text>
+                      <text x="117" y="160" fill="#374151" font-size="8">6</text>
+                      <text x="77" y="180" fill="#374151" font-size="8">7</text>
+                      <text x="97" y="180" fill="#374151" font-size="8">8</text>
+                      <text x="117" y="180" fill="#374151" font-size="8">9</text>
+                    </svg>
+                  </div>
+                  <div class="absolute -top-3 -right-3 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                </div>
+                <h3 class="text-xl font-semibold mb-3 text-primary">Payment Passcode</h3>
+                <p class="text-secondary leading-relaxed">
+                  Add a secure passcode to every payment for extra protection and peace of mind
+                </p>
+              </div>
+              
+              <div class="security-card scale-in stagger-2 group">
+                <div class="relative mb-6">
+                  <div class="h-48 rounded-2xl bg-gradient-to-br from-purple-50 to-violet-100 flex items-center justify-center p-6 group-hover:shadow-lg transition-all duration-300">
+                    <svg class="w-full h-full svg-element" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Phone with lock -->
+                      <rect x="70" y="60" width="60" height="100" rx="8" fill="#8B5CF6" stroke="#7C3AED" stroke-width="2"/>
+                      <rect x="75" y="70" width="50" height="70" rx="4" fill="#DDD6FE"/>
+                      <!-- Lock icon on screen -->
+                      <rect x="85" y="85" width="30" height="25" rx="4" fill="#A78BFA" stroke="#7C3AED" stroke-width="1"/>
+                      <path d="M87 85 L87 75 Q87 70 92 70 L108 70 Q113 70 113 75 L113 85" stroke="#7C3AED" stroke-width="1" fill="none"/>
+                      <!-- Locked indicator -->
+                      <circle cx="100" cy="110" r="8" fill="#EF4444"/>
+                      <text x="100" y="114" text-anchor="middle" fill="white" font-size="10" font-weight="bold">🔒</text>
+                      <!-- Home button -->
+                      <circle cx="100" cy="155" r="5" fill="#6B7280"/>
+                    </svg>
+                  </div>
+                  <div class="absolute -top-3 -right-3 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                </div>
+                <h3 class="text-xl font-semibold mb-3 text-primary">Private Chat Lock</h3>
+                <p class="text-secondary leading-relaxed">
+                  Lock Xpend chats so only you can access them, keeping your financial conversations private
+                </p>
+              </div>
+              
+              <div class="security-card scale-in stagger-3 group">
+                <div class="relative mb-6">
+                  <div class="h-48 rounded-2xl bg-gradient-to-br from-orange-50 to-amber-100 flex items-center justify-center p-6 group-hover:shadow-lg transition-all duration-300">
+                    <svg class="w-full h-full svg-element" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Fingerprint scanner -->
+                      <rect x="60" y="80" width="80" height="80" rx="40" fill="#F59E0B" stroke="#D97706" stroke-width="2"/>
+                      <rect x="70" y="90" width="60" height="60" rx="30" fill="#FEF3C7"/>
+                      <!-- Fingerprint pattern -->
+                      <path d="M85 110 Q90 105 95 110 Q100 115 105 110 Q110 105 115 110" stroke="#D97706" stroke-width="2" fill="none"/>
+                      <path d="M85 120 Q90 115 95 120 Q100 125 105 120 Q110 115 115 120" stroke="#D97706" stroke-width="2" fill="none"/>
+                      <path d="M85 130 Q90 125 95 130 Q100 135 105 130 Q110 125 115 130" stroke="#D97706" stroke-width="2" fill="none"/>
+                      <path d="M85 140 Q90 135 95 140 Q100 145 105 140 Q110 135 115 140" stroke="#D97706" stroke-width="2" fill="none"/>
+                      <!-- Face recognition -->
+                      <circle cx="100" cy="50" r="15" fill="#F59E0B"/>
+                      <circle cx="95" cy="47" r="2" fill="#374151"/>
+                      <circle cx="105" cy="47" r="2" fill="#374151"/>
+                      <path d="M95 55 Q100 58 105 55" stroke="#374151" stroke-width="1" fill="none"/>
+                      <!-- Success indicator -->
+                      <circle cx="100" cy="180" r="8" fill="#10B981"/>
+                      <text x="100" y="184" text-anchor="middle" fill="white" font-size="10" font-weight="bold">✓</text>
+                    </svg>
+                  </div>
+                  <div class="absolute -top-3 -right-3 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                </div>
+                <h3 class="text-xl font-semibold mb-3 text-primary">Biometric Login</h3>
+                <p class="text-secondary leading-relaxed">
+                  Use your fingerprint or face to securely access your account, ensuring only you have control
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section id="faq" class="max-w-3xl mx-auto my-24 px-4">
+        <h2 class="text-4xl font-bold text-center mb-10">Frequently Asked Questions</h2>
+        <div class="space-y-4" id="faq-accordion">
+          <!-- FAQ 1 -->
+          <div class="bg-card rounded-xl shadow-md p-6 transition hover:shadow-lg border border-theme">
+            <button class="w-full flex items-center justify-between text-left text-lg font-semibold text-primary focus:outline-none faq-toggle" style="background: none !important;">
+              <span><svg class="inline-block mr-2 text-accent-blue" width="22" height="22" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#1565c0" stroke-width="2"/><path d="M12 8v4" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16" r="1" fill="#1565c0"/></svg>What is Xpend?</span>
+              <svg class="faq-arrow transform transition-transform duration-200" width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="faq-content mt-3 text-secondary text-base hidden">
+              Xpend is your personal crypto wallet assistant on WhatsApp. Instantly get the real-time Naira equivalent for your crypto, send money, pay bills, and manage your funds—all through simple chat.
+            </div>
+          </div>
+          <!-- FAQ 2 -->
+          <div class="bg-card rounded-xl shadow-md p-6 transition hover:shadow-lg border border-theme">
+            <button class="w-full flex items-center justify-between text-left text-lg font-semibold text-primary focus:outline-none faq-toggle" style="background: none !important;">
+              <span><svg class="inline-block mr-2 text-accent-blue" width="22" height="22" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#1565c0" stroke-width="2"/><path d="M8 12h8" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/></svg>How does Xpend work?</span>
+              <svg class="faq-arrow transform transition-transform duration-200" width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="faq-content mt-3 text-secondary text-base hidden">
+              Just chat with Xpend on WhatsApp. Tell it what you want to do—send money, check your balance, or pay a bill—and it handles the rest, converting your crypto to Naira at live rates.
+            </div>
+          </div>
+          <!-- FAQ 3 -->
+          <div class="bg-card rounded-xl shadow-md p-6 transition hover:shadow-lg border border-theme">
+            <button class="w-full flex items-center justify-between text-left text-lg font-semibold text-primary focus:outline-none faq-toggle" style="background: none !important;">
+              <span><svg class="inline-block mr-2 text-accent-blue" width="22" height="22" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#1565c0" stroke-width="2"/><path d="M12 8v4" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16" r="1" fill="#1565c0"/></svg>Is Xpend secure?</span>
+              <svg class="faq-arrow transform transition-transform duration-200" width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="faq-content mt-3 text-secondary text-base hidden">
+              Yes! Every transaction is protected by WhatsApp's end-to-end encryption, your own PIN, and optional biometric login. Your privacy and funds are always safe.
+            </div>
+          </div>
+          <!-- FAQ 4 -->
+          <div class="bg-card rounded-xl shadow-md p-6 transition hover:shadow-lg border border-theme">
+            <button class="w-full flex items-center justify-between text-left text-lg font-semibold text-primary focus:outline-none faq-toggle" style="background: none !important;">
+              <span><svg class="inline-block mr-2 text-accent-blue" width="22" height="22" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#1565c0" stroke-width="2"/><path d="M8 12h8" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/></svg>How do I start using Xpend?</span>
+              <svg class="faq-arrow transform transition-transform duration-200" width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="faq-content mt-3 text-secondary text-base hidden">
+              Tap "Try Xpend" to open a WhatsApp chat. Follow the quick setup to register, then start sending, spending, and managing your crypto instantly.
+            </div>
+          </div>
+          <!-- FAQ 5 -->
+          <div class="bg-card rounded-xl shadow-md p-6 transition hover:shadow-lg border border-theme">
+            <button class="w-full flex items-center justify-between text-left text-lg font-semibold text-primary focus:outline-none faq-toggle" style="background: none !important;">
+              <span><svg class="inline-block mr-2 text-accent-blue" width="22" height="22" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#1565c0" stroke-width="2"/><path d="M12 8v4" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16" r="1" fill="#1565c0"/></svg>What if I lose my phone?</span>
+              <svg class="faq-arrow transform transition-transform duration-200" width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="faq-content mt-3 text-secondary text-base hidden">
+              Freeze your Xpend account instantly from any WhatsApp device. We'll pause all activity and guide you through secure recovery.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="mt-20 max-w-2xl mx-auto text-center mb-32">
+        <h2 class="contact-bounce text-4xl font-bold mb-8 text-primary">Contact Us</h2>
+        <p class="contact-bounce text-secondary text-lg mb-6">
+          Have questions? We're here to help you get started with Xpend. <br>
+           <a href="mailto:support@justxpend.ai" class="email-link text-blue-600 font-bold hover:text-indigo-800">
+              support@justxpend.ai
+            </a> 
+        </p>
+           
+      </section>
+    </main>
+
+    <footer
+      class="bg-card border-t border-theme py-10 px-6 sm:px-8 md:px-12 lg:px-20 xl:px-32 text-center"
+    >
+  
+      <div class="flex justify-center gap-6 text-sm text-secondary">
+        <a href="https://x.com/JustXpend_ai">Twitter</a>
+        <a href="#">Facebook</a>
+        <a href="./terms.html">Terms</a>
+           <a href="./privacy-policy.html">Privacy Policy</a>
+      </div>
+    </footer>
+    
+    <script>
+      // Theme switching functionality
+      const themeToggle = document.getElementById('themeToggle');
+      const body = document.body;
+      
+      // Check for saved theme preference or default to light
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      body.setAttribute('data-theme', savedTheme);
+      
+      // Apply theme colors immediately
+      function applyTheme(theme) {
+        const colors = theme === 'dark' ? {
+          bgPrimary: '#020617',
+          bgCard: '#1e293b',
+          textPrimary: '#f8fafc',
+          textSecondary: '#cbd5e1',
+          textMuted: '#94a3b8',
+          borderColor: '#334155'
+        } : {
+          bgPrimary: '#ffffff',
+          bgCard: '#ffffff',
+          textPrimary: '#111827',
+          textSecondary: '#6b7280',
+          textMuted: '#9ca3af',
+          borderColor: '#e5e7eb'
+        };
+        
+        body.style.backgroundColor = colors.bgPrimary;
+        body.style.color = colors.textPrimary;
+        
+        // Update header background
+        const header = document.querySelector('header');
+        if (header) {
+          header.style.backgroundColor = colors.bgCard;
+        }
+      }
+      
+      // Apply initial theme
+      applyTheme(savedTheme);
+      
+      // Theme toggle click handler
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+        
+        // Add a subtle animation effect
+        body.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+          body.style.transition = '';
+        }, 300);
+      });
+      
+      // Intersection Observer for scroll-triggered animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      // Observe all animated elements
+      document.addEventListener('DOMContentLoaded', () => {
+        const animatedElements = document.querySelectorAll(
+          '.fade-in, .slide-in-left, .slide-in-right, .scale-in, .contact-bounce'
+        );
+        
+        animatedElements.forEach(el => {
+          observer.observe(el);
+        });
+      });
+
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Add some interactive effects
+      document.addEventListener('DOMContentLoaded', () => {
+        // Add hover sound effect simulation (visual feedback)
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+          card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-8px) scale(1.02)';
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0) scale(1)';
+          });
+        });
+
+        // Security cards hover effect
+        const securityCards = document.querySelectorAll('.security-card');
+        securityCards.forEach(card => {
+          card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-5px) scale(1.02)';
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0) scale(1)';
+          });
+        });
+      });
+
+      // FAQ accordion logic
+      document.addEventListener('DOMContentLoaded', function () {
+        const toggles = document.querySelectorAll('.faq-toggle');
+        toggles.forEach(btn => {
+          btn.addEventListener('click', function () {
+            const content = this.parentElement.querySelector('.faq-content');
+            const arrow = this.parentElement.querySelector('.faq-arrow');
+            if (content.classList.contains('hidden')) {
+              document.querySelectorAll('.faq-content').forEach(el => el.classList.add('hidden'));
+              document.querySelectorAll('.faq-arrow').forEach(el => el.classList.remove('rotate-180'));
+              content.classList.remove('hidden');
+              arrow.classList.add('rotate-180');
+            } else {
+              content.classList.add('hidden');
+              arrow.classList.remove('rotate-180');
+            }
+          });
+        });
+      });
+
+      // Mobile menu functionality
+      document.addEventListener('DOMContentLoaded', function () {
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const themeToggleMobile = document.getElementById('themeToggleMobile');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function openMobileMenu() {
+          mobileMenu.classList.add('active');
+          mobileMenuOverlay.classList.add('active');
+          mobileMenuToggle.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+          mobileMenu.classList.remove('active');
+          mobileMenuOverlay.classList.remove('active');
+          mobileMenuToggle.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+
+        // Toggle mobile menu
+        mobileMenuToggle.addEventListener('click', openMobileMenu);
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking on nav links
+        mobileNavLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            setTimeout(closeMobileMenu, 300); // Small delay for smooth transition
+          });
+        });
+
+        // Mobile theme toggle
+        themeToggleMobile.addEventListener('click', () => {
+          const currentTheme = body.getAttribute('data-theme');
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          
+          body.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          applyTheme(newTheme);
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+            closeMobileMenu();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
